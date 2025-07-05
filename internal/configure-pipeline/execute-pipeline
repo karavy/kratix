@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+set -x
+
+# Add logic for pipeline here.
+# Example:
+# name="$(yq eval '.metadata.name' /input/object.yaml)"
+# sed "s/TBDNAME/${name}/g" /tmp/transfer/filename.yaml > /output/filename.yaml
+
+#Get the name from the Promise Custom resource
+name=$(yq eval '.spec.name' /kratix/input/object.yaml)
+storage=$(yq eval '.spec.storage' /kratix/input/object.yaml)
+cpu=$(yq eval '.spec.cpu' /kratix/input/object.yaml)
+memory=$(yq eval '.spec.memory' /kratix/input/object.yaml)
+
+# Inject the name into the Jenkins resources
+find /tmp/transfer -type f -exec sed -i \
+  -e "s/<name>/${name}/g" \
+  {} \;
+
+find /tmp/transfer -type f -exec sed -i \
+  -e "s/<storage>/${storage}/g" \
+  {} \;
+
+
+find /tmp/transfer -type f -exec sed -i \
+  -e "s/<memory>/${memory}/g" \
+  {} \;
+
+find /tmp/transfer -type f -exec sed -i \
+  -e "s/<cpu>/${cpu}/g" \
+  {} \;
+
+cp /tmp/transfer/* /kratix/output/
