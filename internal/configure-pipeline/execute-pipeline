@@ -32,3 +32,24 @@ find /tmp/transfer -type f -exec sed -i \
   {} \;
 
 cp /tmp/transfer/* /kratix/output/
+
+git config --global user.email "kratix@platform.local"
+git config --global user.name "Kratix Promise"
+
+# Usa SSH oppure HTTPS con token
+GIT_SSH_COMMAND="ssh -i /kratix-input/ssh-key -o StrictHostKeyChecking=no" \
+
+# (3) Copia output della Promise
+currdate=$(date +%F-%H%M%S)
+mkdir -p postgres/currdate
+cp /kratix/output/* postgres/currdate
+
+cd postgres/currdate
+
+# (4) Commit & push
+git init
+git add .
+git commit -m "Add output for postgres instance $(date)"
+git branch -M main
+git remote add origin git@github.com:karavy/test1.git
+git push -u origin main
