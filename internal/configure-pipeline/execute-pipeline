@@ -54,7 +54,6 @@ mkdir -p postgres/currdate
 cp /kratix/output/* postgres/currdate
 cat /kratix/output/*
 
-echo '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' > /kratix/input/gh.token
 #gh auth login --with-token < /kratix/input/gh.token
 #gh repo create test1 --private
 
