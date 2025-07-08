@@ -1,3 +1,12 @@
+apiVersion: promise.dinova.services/v1
+kind: cnpg
+metadata:
+  name: my-promise-request
+spec:
+  name: my-amazing-jenkins
+ubuntu@24-0058:/code/kratix/internal/configure-pipeline$ vi execute-pipeline
+ubuntu@24-0058:/code/kratix/internal/configure-pipeline$ vi test-input/object.yaml
+ubuntu@24-0058:/code/kratix/internal/configure-pipeline$ cat execute-pipeline
 #!/usr/bin/env sh
 
 set -x
@@ -43,8 +52,13 @@ GIT_SSH_COMMAND="ssh -i /kratix-input/ssh-key -o StrictHostKeyChecking=no" \
 currdate=$(date +%F-%H%M%S)
 mkdir -p postgres/currdate
 cp /kratix/output/* postgres/currdate
+cat /kratix/output/*
 
-cd postgres/currdate
+echo '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' > /kratix/input/gh.token
+#gh auth login --with-token < /kratix/input/gh.token
+#gh repo create test1 --private
+
+mkdir -p /root/.ssh
 
 echo '-----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
@@ -83,12 +97,17 @@ Dhmnen4NNJ/RlTLk7nIEApOH/zFnii++gC8ZezY/t1tI2idDyw2LqkXFC1oeBm8AFwCQ5e
 FzQG0cxbckNn5hibB5oMKo/LlV75oqz2oxWJHy/gnIqd450f+MBF3hb2Ohg5rsANM2guWk
 H0lM7EwejUw8Ubn9H1fB+VxXa1lqELpoXhmhHXYNOjRkyQNjAWmTFScjYSizu7GCFNsURZ
 BMOaYLdKIBrMkAAAAQcm9vdEBtaW5pby1jcC0wMQECAw==
------END OPENSSH PRIVATE KEY-----' > /kratix-input/ssh-key
+-----END OPENSSH PRIVATE KEY-----' > /root/.ssh/id_rsa
+
+chmod 600 /root/.ssh/id_rsa
+
+cd postgres/currdate
 
 # (4) Commit & push
-git init
-git add .
-git commit -m "Add output for postgres instance $(date)"
-git branch -M main
-git remote add origin git@github.com:karavy/test1.git
-git push -u origin main
+#git init
+#git add .
+#git commit -m "Add output for postgres instance $(date)"
+#git branch -M main
+#git remote add origin git@github.com:karavy/test1.git
+#GIT_SSH_COMMAND="ssh -i /root/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+#git push -u origin main
