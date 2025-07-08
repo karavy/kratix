@@ -3,4 +3,7 @@ kind: cnpg
 metadata:
   name: my-promise-request
 spec:
-  name: my-amazing-jenkins
+  name: dbcluster
+  cpu: "1"
+  memory: "512"
+  storage: "1"
