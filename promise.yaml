@@ -1,10 +1,10 @@
 apiVersion: platform.kratix.io/v1alpha1
 kind: Promise
 metadata:
+  creationTimestamp: null
   name: cnpg
   namespace: default
 spec:
-  #dependencies:
   api:
     apiVersion: apiextensions.k8s.io/v1
     kind: CustomResourceDefinition
@@ -12,39 +12,55 @@ spec:
       name: cnpg.promise.dinova.services
     spec:
       group: promise.dinova.services
-      scope: Namespaced
       names:
+        kind: cnpg
         plural: cnpg
         singular: cnpg
-        kind: cnpg
+      scope: Namespaced
       versions:
-        - name: v1
-          served: true
-          storage: true
-          schema:
-            openAPIV3Schema:
-              type: object
-              properties:
-                spec:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    cpu:
-                      type: string
-                    memory:
-                      type: string
-                    storage:
-                      type: string
+      - name: v1
+        schema:
+          openAPIV3Schema:
+            properties:
+              spec:
+                properties:
+                  cpu:
+                    type: string
+                  memory:
+                    type: string
+                  name:
+                    type: string
+                  storage:
+                    type: string
+                type: object
+            type: object
+        served: true
+        storage: true
+  dependencies:
+  - apiVersion: v1
+    data:
+      id_rsa: LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUJsd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFZRUE2cEh5VGxGQS8zaWRtSUVpTTNPTDJYV0J5eG91VEpHelNxZU8veVI0cTFESzF0d0NzWmhaClpWVDZiK28ySXdzWFVLM0o5MndGQ0RHM2JsQkV1bEJBY2h1SmV6bVR2WWdFUnFCOWFRMC91YkdmQ2NnQjJOb0toYlhTQkYKdTN3N1U5YW1RMjdYdFRmYWpOelQ5VWczdklmeEc3T1A2cG1vTnRxVjIwQ1NLWUMxek1BT1pISzdROTFTVUIrVERIcGpscQpQYUFsd0hMT0czbGx0NnR3VVN4OHF4dWVwbXZWQ0ZlTXdUTEUzWVBZUHZLTFZsQm56anFONCs1WEJLd05BSjFCa2lSNFlICkh2Uy9BSnA3bVJTTHJCSSsvbmpwa080ZVcvTFE5T0hSeFF3QmVhdzBJZzA4cjc4cEJKZlFMQW5lK2NiMzBSM0RyMkRqZ08KMHpaTnlwR21VTFpCTlRySmhWSnY5YnE0WFRZY1FHZTM0VkhVa1RqK0VFVXArYnhMTUxCTUhJTWp6L0ZxMlorSzNydDVvYgpTdEM2VHltM0tnUURXbWJVZU0zQkI1YTRRdDNwTkNhdnFjakk0aGxMSUVHb2d1cDZoWTNkWWRia1JBdGdYWmFnUWZBN3BZClg1eDdndjIxTjNRM3VjdXQzMjNPVDdmK3VRMmxhQkMydzRna2ViYWxBQUFGaUV3aTBBUk1JdEFFQUFBQUIzTnphQzF5YzIKRUFBQUdCQU9xUjhrNVJRUDk0blppQklqTnppOWwxZ2NzYUxreVJzMHFuanY4a2VLdFF5dGJjQXJHWVdXVlUrbS9xTmlNTApGMUN0eWZkc0JRZ3h0MjVRUkxwUVFISWJpWHM1azcySUJFYWdmV2tOUDdteG53bklBZGphQ29XMTBnUmJ0OE8xUFdwa051CjE3VTMyb3pjMC9WSU43eUg4UnV6aitxWnFEYmFsZHRBa2ltQXRjekFEbVJ5dTBQZFVsQWZrd3g2WTVhajJnSmNCeXpodDUKWmJlcmNGRXNmS3NibnFacjFRaFhqTUV5eE4yRDJEN3lpMVpRWjg0NmplUHVWd1NzRFFDZFFaSWtlR0J4NzB2d0NhZTVrVQppNndTUHY1NDZaRHVIbHZ5MFBUaDBjVU1BWG1zTkNJTlBLKy9LUVNYMEN3SjN2bkc5OUVkdzY5ZzQ0RHRNMlRjcVJwbEMyClFUVTZ5WVZTYi9XNnVGMDJIRUJudCtGUjFKRTQvaEJGS2ZtOFN6Q3dUQnlESTgveGF0bWZpdDY3ZWFHMHJRdWs4cHR5b0UKQTFwbTFIak53UWVXdUVMZDZUUW1yNm5JeU9JWlN5QkJxSUxxZW9XTjNXSFc1RVFMWUYyV29FSHdPNldGK2NlNEw5dFRkMApON25McmQ5dHprKzMvcmtOcFdnUXRzT0lKSG0ycFFBQUFBTUJBQUVBQUFHQUIzWTBqOGE0YTFnR0pWMklQYnhCZU4ycXp3Ci9xWkorbTVTdE8ybkZwMEVOTjdJZExvNlFkeGVJdDVFVCtTMStWTW9rUXVXanJnUTc1ejQzSW5lZWpJUzRja2JtcmFEWk4KTW9UMDhGUk9VR1VrMHI0VXh2WHFxMFcxSkZQWmxPVnRTbmJkSTNGT250cnhqd09pZDl0R2JicGQ2d3A0MFRRNGx4Qm13MwpxZy9RMks1TVZ1Z3FhbForUVpPN2pRUlFxakJVcFVvUnBWMFp4clBxdzZzcTVZV2VZVFJpWjhmSnN5WEV2MTVMa0d0anZuCmNFdTIvYUd4dFV3MTR1MXBMWG1URm96WjZpMGlMZ2dEdXdQQXJtNkI3Y3IzMlUyeUNKc0E1a0QxZGxwSkF0ZjI1ekNsQ2gKUlFZOGRhWkpUeVM0OXg3bnRXYkNTb1ZtZFBiTmY5NDFIM3dkU014dzRicHhCY052a0RBVkxoZEIrVDJ1eUhmTkNwemdqYgpWNDhhYUxGUFNRYks2dkFqS1I3WEFUWXk3RXJuUkxKRzhJS3dQbHM3UnByVFU1NFRWTEVQU2hIdTN0eXBSeE1jb2xnN2ZMCmtqUENHU21nQ2JVYU5aczBkZC9KSndKYUVNUS9HMU9zM3RLeFVyWFhjT0xuWmNrbzU4NVdQdnlpMkg1aUI0VlRjcEFBQUEKd0UzUkdmcFZkZWhZbzFRTnFMN2J1WnJ3bXJ6VExTZkpLRFpObEZCUzJqc043Z0ZWR2xUWHRHQ2xoWWZISTJpVDgwM2VWcApPdzNvYUQrNXRxQlllWlQwZ2UwcnByUWpNbTNiOE5RUGdwMzNuQjY5NjRtcUliMjJ5RnFsRlo2cFNva3dSa3NkNUZGZkhZCnR6QnlQVnQzM3ZuaGRZOElwMUcwWEZjTHA4Nk5yWjY1MlAreXRVN0lPUkpNWWpDK3pLa1ExR0ZSeXIrbkRKMEV3ejBhRE8KdlpEalhXOGdKd1ZhRmYzVDh2b0tKQm5YTE1VVlhhaEgrazFtTjN3SjNjTjdBM293QUFBTUVBLyt0bnh2WEhXUkQ4RVhFTAphOGFMNDZGVUFUc1hOVWgzRFhRSUdIRHpxaWw3TUt3MHFqeXRxOGdMSzB6bGt6cURzVzZ5VGc1UWlObzI3dXl0K1lKNGFtCmdzaVZ6QVkzejhOL3UwdGtyWDFTbUJTZ3FUVkY3YmtrajdaaFRZUitHL1h2VUxnVFZFL2h5blVQWHYvS3l0U0s5NXE5dVUKRGhtbmVuNE5OSi9SbFRMazduSUVBcE9IL3pGbmlpKytnQzhaZXpZL3QxdEkyaWREeXcyTHFrWEZDMW9lQm04QUZ3Q1E1ZQo4VXIwcktQZFZwaDhvU1VFbVVkeUZ3bW85TElGVDlBQUFBd1FEcXBOSzA3SkF1eGFuWGpUdnltclRjZkd4b2ZmSDlHbGx2CjF6dXFRc0g2VmF3QWkwVyszUjA5RlFnVThpSVVLZmdlUTgwdkxuWE9tTGJ1eENXUXE1VHpZRFh2c2h4RWJoMkhJcUs1Y2QKRnpRRzBjeGJja05uNWhpYkI1b01Lby9MbFY3NW9xejJveFdKSHkvZ25JcWQ0NTBmK01CRjNoYjJPaGc1cnNBTk0yZ3VXawpIMGxNN0V3ZWpVdzhVYm45SDFmQitWeFhhMWxxRUxwb1hobWhIWFlOT2pSa3lRTmpBV21URlNjallTaXp1N0dDRk5zVVJaCkJNT2FZTGRLSUJyTWtBQUFBUWNtOXZkRUJ0YVc1cGJ5MWpjQzB3TVFFQ0F3PT0KLS0tLS1FTkQgT1BFTlNTSCBQUklWQVRFIEtFWS0tLS0tCg==
+    kind: Secret
+    metadata:
+      name: gitssh
+      namespace: default
+  - apiVersion: v1
+    data:
+      git-token: Z2hwX0tCZklDSmhwckNZd1F3bGVhMnVUZ25rNk1mc1VJTjN6S3FYcQo=
+    kind: Secret
+    metadata:
+      creationTimestamp: null
+      name: gittoken
+      namespace: default
   workflows:
     resource:
       configure:
-        - apiVersion: platform.kratix.io/v1alpha1
-          kind: Pipeline
-          metadata:
-            name: instance-configure
-          spec:
-            containers:
-              - name: create-cnpg-instance
-                # update the image if you are using a custom name
-                image: karavy/kratix:0.0.1
+      - apiVersion: platform.kratix.io/v1alpha1
+        kind: Pipeline
+        metadata:
+          name: instance-configure
+        spec:
+          containers:
+          - image: karavy/kratix:0.0.1
+            name: create-cnpg-instance
+status: {}

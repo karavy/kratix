@@ -36,25 +36,23 @@ cp /tmp/transfer/* /kratix/output/
 git config --global user.email "kratix@platform.local"
 git config --global user.name "Kratix Promise"
 
-# Usa SSH oppure HTTPS con token
-GIT_SSH_COMMAND="ssh -i /kratix-input/ssh-key -o StrictHostKeyChecking=no" \
-
 # (3) Copia output della Promise
 currdate=$(date +%F-%H%M%S)
 mkdir -p postgres/currdate
 cp /kratix/output/* postgres/currdate
-cat /kratix/output/*
+#cat /kratix/input/*
 
-#gh auth login --with-token < /kratix/input/gh.token
-#gh repo create test1 --private
+gh auth login --with-token < /kratix/input/git-token
+gh repo create test1 --private
 
 cd postgres/currdate
 
 # (4) Commit & push
-#git init
-#git add .
-#git commit -m "Add output for postgres instance $(date)"
-#git branch -M main
-#git remote add origin git@github.com:karavy/test1.git
-#GIT_SSH_COMMAND="ssh -i /root/.ssh/id_rsa -o StrictHostKeyChecking=no" \
-#git push -u origin main
+git init
+git pull
+git add .
+git commit -m "Add output for postgres instance $(date)"
+git branch -M main
+git remote add origin git@github.com:karavy/test1.git
+GIT_SSH_COMMAND="ssh -i /kratix/input/id_rsa -o StrictHostKeyChecking=no" \
+git push -u origin main

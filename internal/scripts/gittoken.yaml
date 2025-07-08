@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  git-token: Z2hwX0tCZklDSmhwckNZd1F3bGVhMnVUZ25rNk1mc1VJTjN6S3FYcQo=
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: gittoken
