@@ -1,12 +1,3 @@
-apiVersion: promise.dinova.services/v1
-kind: cnpg
-metadata:
-  name: my-promise-request
-spec:
-  name: my-amazing-jenkins
-ubuntu@24-0058:/code/kratix/internal/configure-pipeline$ vi execute-pipeline
-ubuntu@24-0058:/code/kratix/internal/configure-pipeline$ vi test-input/object.yaml
-ubuntu@24-0058:/code/kratix/internal/configure-pipeline$ cat execute-pipeline
 #!/usr/bin/env sh
 
 set -x
